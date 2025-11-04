@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/home.css}" href="/static/styles/home.css">
+</head>
+<body>
+    <form method="post">
+        <input type="text" name="long_url" placeholder="Введите ссылку, которую нужно сократить" required>
+        <input type="text" name="count_click" placeholder="Задайте количество переходов" required>
+        <input type="hidden" name="counter" th:value="${count}">
+        <input type="submit" value="Сократить">
+    </form>
+
+<!--    <a th:if="${isShortUrl} == 1" th:each="link : ${links}" th:text="${link.getShortUrl()}" th:href="${link.getLongUrl()}"></a>-->
+
+    <div>
+        <ul>
+            <li th:each="link : ${links}" style="margin-bottom: 5px;">
+                <a th:text="${link.getShortUrl()}" th:href="'/redir/' + ${link.getShortUrl()}" target="_blank"></a>
+            </li>
+        </ul>
+    </div>
+
+    <script th:if="${showAlertExp}">
+        alert('Некоторые ваши ссылки были удалены по истечении времени!');
+    </script>
+
+    <script th:if="${showAlertLim}">
+        alert('Лимит переходов по ссылке был исчерпан!');
+    </script>
+
+    <script th:if="${showAlertWrongUrl}">
+        alert('Был введен несуществующий URL!');
+    </script>
+
+    <script th:if="${showAlertInvalidNum}">
+        alert('Было введено некорректное количество переходов!');
+    </script>
+</body>
+</html>
